@@ -6,6 +6,7 @@ using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CrmApi.Services
 {
@@ -22,6 +23,12 @@ namespace CrmApi.Services
 
         public ReadUsuarioDto CriarUsuario(CreateUsuarioDto usuarioDto)
         {
+            bool resultado = ValidarCpf(usuarioDto.Cpf);
+            if (!resultado)
+            {
+                return null;
+            }
+
             Usuario usuario = _mapper.Map<Usuario>(usuarioDto);
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
@@ -55,6 +62,12 @@ namespace CrmApi.Services
                 return Result.Fail("Usuário não encontrado");
             }
 
+            bool resultado = ValidarCpf(usuarioDto.Cpf, id);
+            if (!resultado)
+            {
+                return null;
+            }
+
             _mapper.Map(usuarioDto, usuario);
             _context.SaveChanges();
             return Result.Ok();
@@ -71,6 +84,30 @@ namespace CrmApi.Services
             _context.Remove(usuario);
             _context.SaveChanges();
             return Result.Ok();
+        }
+
+        public bool ValidarCpf(string cpf, int? id = null)
+        {
+            bool resultado = Regex.IsMatch(cpf, "^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}");
+            if (!resultado)
+            {
+                return resultado;
+            }
+
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Cpf == cpf);
+            if (usuario == null)
+            {
+                return true;
+            }
+            if (id != null)
+            {
+                if (usuario.Id == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+
         }
     }
 }

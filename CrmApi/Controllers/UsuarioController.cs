@@ -25,6 +25,7 @@ namespace CrmApi.Controllers
         public IActionResult CriarUsuario([FromBody] CreateUsuarioDto usuarioDto)
         {
             ReadUsuarioDto readDto = _service.CriarUsuario(usuarioDto);
+            if (readDto == null) return BadRequest("O campo Cpf é inválido ou já existante");
             return CreatedAtAction(nameof(RecuperarUsuarioPorId), new { Id = readDto.Id }, readDto);
         }
 
@@ -47,6 +48,7 @@ namespace CrmApi.Controllers
         public IActionResult EditarUsuario(int id, [FromBody] UpdateUsuarioDto usuarioDto)
         {
             Result resultado = _service.EditarUsuario(id, usuarioDto);
+            if (resultado == null) return BadRequest("O campo Cpf é inválido ou já existante");
             if (resultado.IsFailed) return NotFound(resultado.Errors[0].Message);
             return NoContent();
         }
