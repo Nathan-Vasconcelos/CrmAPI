@@ -15,5 +15,7 @@ namespace CrmApi.Models
         public virtual Atendimento Atendimento { get; set; }
         public int AtendimentoId { get; set; }
         public DateTime DataAtualizacao { get; set; }
+        public virtual ContatoAtendimento ContatoAtendimento { get; set; }
+        public int ContatoAtendimentoId { get; set; }
     }
 }

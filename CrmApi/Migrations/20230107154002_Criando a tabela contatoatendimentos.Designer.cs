@@ -3,14 +3,16 @@ using System;
 using CrmApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CrmApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230107154002_Criando a tabela contatoatendimentos")]
+    partial class Criandoatabelacontatoatendimentos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,9 +101,6 @@ namespace CrmApi.Migrations
                     b.Property<int>("AtendimentoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContatoAtendimentoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DataAtualizacao")
                         .HasColumnType("datetime");
 
@@ -112,8 +111,6 @@ namespace CrmApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AtendimentoId");
-
-                    b.HasIndex("ContatoAtendimentoId");
 
                     b.ToTable("Pareceres");
                 });
@@ -214,15 +211,7 @@ namespace CrmApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CrmApi.Models.ContatoAtendimento", "ContatoAtendimento")
-                        .WithMany("Pareceres")
-                        .HasForeignKey("ContatoAtendimentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Atendimento");
-
-                    b.Navigation("ContatoAtendimento");
                 });
 
             modelBuilder.Entity("CrmApi.Models.Atendimento", b =>
@@ -233,11 +222,6 @@ namespace CrmApi.Migrations
             modelBuilder.Entity("CrmApi.Models.Cliente", b =>
                 {
                     b.Navigation("Atendimentos");
-                });
-
-            modelBuilder.Entity("CrmApi.Models.ContatoAtendimento", b =>
-                {
-                    b.Navigation("Pareceres");
                 });
 
             modelBuilder.Entity("CrmApi.Models.StatusAtendimento", b =>

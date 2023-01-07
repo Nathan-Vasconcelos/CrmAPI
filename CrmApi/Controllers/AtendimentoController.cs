@@ -26,9 +26,10 @@ namespace CrmApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult RecuperarAtendimentos()
+        public IActionResult RecuperarAtendimentos([FromQuery] int? statusAtendimento = null)
         {
-            List<ReadAtendimentoDto> atendimentos = _service.RecuperarAtendimentos();
+            List<ReadAtendimentoDto> atendimentos = _service.RecuperarAtendimentos(statusAtendimento);
+            if (atendimentos == null) return NotFound();
             return Ok(atendimentos);
         }
 
@@ -38,6 +39,14 @@ namespace CrmApi.Controllers
             ReadAtendimentoDto readDto = _service.RecuperarAtendimentoPorId(id);
             if (readDto == null) return NotFound();
             return Ok(readDto);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult EditarAtendimento(int id, [FromBody] UpdateAtendimentoDto atendimentoDto)
+        {
+            Result resultado = _service.EditarAtendimento(id, atendimentoDto);
+            if (resultado.IsFailed) return NotFound(resultado.Errors[0].Message);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

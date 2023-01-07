@@ -29,10 +29,20 @@ namespace CrmApi.Services
             return readDto;
         }
 
-        public List<ReadAtendimentoDto> RecuperarAtendimentos()
+        public List<ReadAtendimentoDto> RecuperarAtendimentos(int? statusAtendimento)
         {
-            List<ReadAtendimentoDto> atendimentos = _mapper.Map<List<ReadAtendimentoDto>>(_context.Atendimentos.ToList());
-            return atendimentos;
+            List<Atendimento> atendimentos;
+            if (statusAtendimento == null)
+            {
+                atendimentos = _context.Atendimentos.ToList();
+            }
+            else
+            {
+                atendimentos = _context.Atendimentos.Where(
+                    atendimento => atendimento.StatusAtendimentoId == statusAtendimento).ToList();
+            }
+            List<ReadAtendimentoDto> readDtos = _mapper.Map<List<ReadAtendimentoDto>>(atendimentos);
+            return readDtos;
         }
 
         public ReadAtendimentoDto RecuperarAtendimentoPorId(int id)
@@ -44,6 +54,18 @@ namespace CrmApi.Services
             }
             ReadAtendimentoDto readDto = _mapper.Map<ReadAtendimentoDto>(atendimento);
             return readDto;
+        }
+
+        public Result EditarAtendimento(int id, UpdateAtendimentoDto atendimentoDto)
+        {
+            Atendimento atendimento = _context.Atendimentos.FirstOrDefault(atendimento => atendimento.Id == id);
+            if (atendimento == null)
+            {
+                return Result.Fail("Atendimento não encontrado");
+            }
+            _mapper.Map(atendimentoDto, atendimento);
+            _context.SaveChanges();
+            return Result.Ok();
         }
 
         public Result DeletarAtendimento(int id)

@@ -31,6 +31,16 @@ namespace CrmApi.Data
                 .HasOne(parecer => parecer.Atendimento)
                 .WithMany(atendimento => atendimento.Pareceres)
                 .HasForeignKey(parecer => parecer.AtendimentoId);
+
+            builder.Entity<Atendimento>()
+                .HasOne(atendimento => atendimento.StatusAtendimento)
+                .WithMany(statusAtendimento => statusAtendimento.Atendimentos)
+                .HasForeignKey(atendimento => atendimento.StatusAtendimentoId);
+
+            builder.Entity<Parecer>()
+                .HasOne(parecer => parecer.ContatoAtendimento)
+                .WithMany(contatoAtendimento => contatoAtendimento.Pareceres)
+                .HasForeignKey(parecer => parecer.ContatoAtendimentoId);
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
@@ -38,5 +48,7 @@ namespace CrmApi.Data
         public DbSet<Atendimento> Atendimentos { get; set; }
         public DbSet<TipoAtendimento> TipoAtendimentos { get; set; }
         public DbSet<Parecer> Pareceres { get; set; }
+        public DbSet<StatusAtendimento> StatusAtendimentos { get; set; }
+        public DbSet<ContatoAtendimento> ContatoAtendimentos { get; set; }
     }
 }

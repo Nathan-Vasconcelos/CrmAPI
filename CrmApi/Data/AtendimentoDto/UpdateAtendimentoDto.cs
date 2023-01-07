@@ -10,5 +10,6 @@ namespace CrmApi.Data.AtendimentoDto
         public int ClienteId { get; set; }
         [Required(ErrorMessage = "O campo TipoAtendimentoId é obrigatório")]
         public int TipoAtendimentoId { get; set; }
+        public int StatusAtendimentoId { get; set; }
     }
 }

@@ -17,5 +17,7 @@ namespace CrmApi.Data.AtendimentoDto
         public int ClienteId { get; set; }
         public TipoAtendimento TipoAtendimento { get; set; }
         public int TipoAtendimentoId { get; set; }
+        public StatusAtendimento StatusAtendimento { get; set; }
+        public int StatusAtendimentoId { get; set; }
     }
 }

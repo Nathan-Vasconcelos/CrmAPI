@@ -19,5 +19,7 @@ namespace CrmApi.Models
         [JsonIgnore]
         public virtual TipoAtendimento TipoAtendimento { get; set; }
         public int TipoAtendimentoId { get; set; }
+        public virtual StatusAtendimento StatusAtendimento { get; set; }
+        public int StatusAtendimentoId { get; set; }
     }
 }
