@@ -22,6 +22,7 @@ namespace CrmApi.Controllers
         public IActionResult CriarCLiente([FromBody] CreateClienteDto clienteDto)
         {
             ReadClienteDto readDto = _service.CriarCLiente(clienteDto);
+            if (readDto == null) return BadRequest("O campo Cnpj é inválido ou já existante");
             return CreatedAtAction(nameof(RecuperarClientePorId), new { Id = readDto.Id}, readDto);
         }
 
@@ -44,6 +45,7 @@ namespace CrmApi.Controllers
         public IActionResult EditarCLiente(int id, [FromBody] UpdateClienteDto clienteDto)
         {
             Result resultado = _service.EditarCLiente(id, clienteDto);
+            if (resultado == null) return BadRequest("O campo Cnpj é inválido ou já existante");
             if (resultado.IsFailed) return NotFound(resultado.Errors[0].Message);
             return NoContent();
         }
