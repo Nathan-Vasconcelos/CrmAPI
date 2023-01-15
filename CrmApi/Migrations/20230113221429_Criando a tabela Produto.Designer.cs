@@ -3,14 +3,16 @@ using System;
 using CrmApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CrmApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230113221429_Criando a tabela Produto")]
+    partial class CriandoatabelaProduto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,34 +90,6 @@ namespace CrmApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ContatoAtendimentos");
-                });
-
-            modelBuilder.Entity("CrmApi.Models.Contrato", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descricao")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Valor")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("Contratos");
                 });
 
             modelBuilder.Entity("CrmApi.Models.Parecer", b =>
@@ -253,25 +227,6 @@ namespace CrmApi.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("CrmApi.Models.Contrato", b =>
-                {
-                    b.HasOne("CrmApi.Models.Cliente", "Cliente")
-                        .WithMany("Contratos")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CrmApi.Models.Produto", "Produto")
-                        .WithMany("Contratos")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Produto");
-                });
-
             modelBuilder.Entity("CrmApi.Models.Parecer", b =>
                 {
                     b.HasOne("CrmApi.Models.Atendimento", "Atendimento")
@@ -299,18 +254,11 @@ namespace CrmApi.Migrations
             modelBuilder.Entity("CrmApi.Models.Cliente", b =>
                 {
                     b.Navigation("Atendimentos");
-
-                    b.Navigation("Contratos");
                 });
 
             modelBuilder.Entity("CrmApi.Models.ContatoAtendimento", b =>
                 {
                     b.Navigation("Pareceres");
-                });
-
-            modelBuilder.Entity("CrmApi.Models.Produto", b =>
-                {
-                    b.Navigation("Contratos");
                 });
 
             modelBuilder.Entity("CrmApi.Models.StatusAtendimento", b =>

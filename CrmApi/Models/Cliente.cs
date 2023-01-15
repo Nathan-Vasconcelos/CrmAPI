@@ -20,5 +20,6 @@ namespace CrmApi.Models
         public string Cnpj { get; set; }
         [JsonIgnore]
         public virtual List<Atendimento> Atendimentos { get; set; }
+        public virtual List<Contrato> Contratos { get; set; }
     }
 }

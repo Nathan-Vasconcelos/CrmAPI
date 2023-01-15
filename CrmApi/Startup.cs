@@ -38,6 +38,8 @@ namespace CrmApi
             services.AddScoped<ParecerService, ParecerService>();
             services.AddScoped<StatusAtendimentoService, StatusAtendimentoService>();
             services.AddScoped<ContatoAtendimentoService, ContatoAtendimentoService>();
+            services.AddScoped<ProdutoService, ProdutoService>();
+            services.AddScoped<ContratoService, ContratoService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

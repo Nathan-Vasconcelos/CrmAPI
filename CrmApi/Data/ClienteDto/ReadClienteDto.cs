@@ -20,5 +20,6 @@ namespace CrmApi.Data.ClienteDto
         [MaxLength(18, ErrorMessage = "O campo Cnpj pode ter no máximo 18 caracteres")]
         public string Cnpj { get; set; }
         public List<Atendimento> Atendimentos { get; set; }
+        public List<Contrato> Contratos { get; set; }
     }
 }
